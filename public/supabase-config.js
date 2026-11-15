@@ -42,3 +42,4 @@ WITH CHECK (true);
 
 -- (Notice: No update or delete policy is added, so visitors cannot edit or delete others' wishes!)
 */
+

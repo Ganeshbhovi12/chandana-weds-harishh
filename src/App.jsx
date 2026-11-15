@@ -4,7 +4,7 @@ import { PhotoGallery } from './components/PhotoGallery';
 import { PreWeddingFilm } from './components/PreWeddingFilm';
 import { WeddingCelebrations } from './components/WeddingCelebrations';
 import { WeddingLocation } from './components/WeddingLocation';
-import { WeddingWishes } from './components/WeddingWishes';
+import { FloatingWishes } from './components/FloatingWishes';
 import { FinalThankYou } from './components/FinalThankYou';
 import { weddingData } from './data/weddingData';
 
@@ -115,16 +115,14 @@ export function App() {
           locationData={weddingData.location}
         />
 
-        {/* SECTION: WEDDING WISHES (WITH LOVE & BLESSINGS - FROM KEERTHANA) */}
-        <WeddingWishes
-          wishesData={weddingData.wishes}
-        />
-
         {/* SECTION 6: FINAL THANK YOU ("YOUR PRESENCE WILL MAKE OUR DAY MORE SPECIAL" + FOOTER) */}
         <FinalThankYou
           closingData={weddingData.closing}
         />
       </main>
+
+      {/* MINIMAL FLOATING GUEST WISHES EXPERIENCE */}
+      <FloatingWishes />
     </div>
   );
 }

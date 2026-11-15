@@ -1379,108 +1379,369 @@
     }
 
     /* =========================================================================
-       10B. SECTION: WEDDING WISHES (LEAVE YOUR WISHES)
+       10B. FLOATING WEDDING WISHES & POPUP DIALOG
        ========================================================================= */
-    #wishes-section {
-      padding: 5rem 1.25rem 4.5rem;
-      background: var(--color-cream-light);
+    /* Floating Message Trigger Button */
+    .floating-wishes-btn {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 2rem;
+      z-index: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255, 253, 249, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid var(--color-gold);
+      border-radius: 9999px;
+      padding: 0.4rem 0.5rem 0.4rem 1.1rem;
+      box-shadow: 0 8px 24px rgba(46, 26, 16, 0.18), 0 0 0 1px rgba(197, 160, 89, 0.2);
+      cursor: pointer;
+      color: var(--color-brown);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: floatWishesPulse 3.5s infinite ease-in-out;
+      user-select: none;
+    }
+
+    .floating-wishes-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(158, 123, 52, 0.35);
+      border-color: var(--color-gold-dark);
+      background: #FFFFFF;
+    }
+
+    .floating-wishes-label {
+      text-transform: uppercase;
+      color: var(--color-brown-dark);
+      white-space: nowrap;
+    }
+
+    .floating-wishes-icon-circle {
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold), var(--color-gold-dark));
+      color: var(--color-ivory);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
+      box-shadow: 0 4px 12px rgba(158, 123, 52, 0.3);
+      flex-shrink: 0;
+    }
+
+    .floating-wishes-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #C53030;
+      color: #FFFFFF;
+      font-size: 0.62rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 0.1rem 0.35rem;
+      line-height: 1;
+      border: 1.5px solid var(--color-ivory);
+      font-family: var(--font-body);
+    }
+
+    @keyframes floatWishesPulse {
+      0%, 100% {
+        box-shadow: 0 8px 24px rgba(46, 26, 16, 0.18), 0 0 0 0 rgba(197, 160, 89, 0.4);
+      }
+      50% {
+        box-shadow: 0 12px 28px rgba(46, 26, 16, 0.22), 0 0 0 8px rgba(197, 160, 89, 0);
+      }
+    }
+
+    /* Floating Wishes Vertical Stream on the right */
+    .floating-wishes-stream {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 5.75rem;
+      z-index: 850;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 0.65rem;
+      max-width: 280px;
+      pointer-events: none;
+    }
+
+    .floating-wish-bubble {
+      pointer-events: auto;
+      background: rgba(255, 253, 249, 0.96);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(197, 160, 89, 0.6);
+      border-radius: 1rem;
+      padding: 0.85rem 1rem;
+      box-shadow: 0 8px 25px rgba(46, 26, 16, 0.12);
+      animation: floatBubbleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .floating-wish-bubble:hover {
+      transform: translateX(-4px);
+      box-shadow: 0 10px 28px rgba(197, 160, 89, 0.25);
+      border-color: var(--color-gold);
+    }
+
+    .floating-wish-bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .floating-wish-bubble-name {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-brown-dark);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .floating-wish-bubble-badge {
+      font-size: 0.6rem;
+      color: var(--color-gold-dark);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .floating-wish-bubble-close {
+      color: rgba(61, 36, 24, 0.4);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.1rem;
+      font-size: 0.75rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: color 0.2s;
+    }
+
+    .floating-wish-bubble-close:hover {
+      color: var(--color-brown);
+    }
+
+    .floating-wish-bubble-msg {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      font-style: italic;
+      color: rgba(46, 26, 16, 0.9);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    .wishes-container {
-      max-width: 44rem;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
+    @keyframes floatBubbleIn {
+      0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.92);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    /* Wishes Form Card */
-    .wishes-form-card {
+    /* Message Dialog Modal */
+    .wishes-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(36, 19, 11, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .wishes-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .wishes-modal-card {
       background: var(--color-ivory);
       border: 1.5px solid var(--color-gold);
       border-radius: 1.5rem;
       padding: 2rem 1.5rem;
-      box-shadow: 0 14px 38px rgba(46, 26, 16, 0.08);
+      box-shadow: 0 20px 60px rgba(36, 19, 11, 0.35);
+      max-width: 28rem;
+      width: 100%;
       position: relative;
-      margin-bottom: 2.5rem;
+      transform: scale(0.94) translateY(12px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     @media (min-width: 640px) {
-      .wishes-form-card {
+      .wishes-modal-card {
         padding: 2.5rem 2.25rem;
       }
     }
 
-    .wish-form-group {
-      margin-bottom: 1.25rem;
-      position: relative;
+    .wishes-modal-backdrop.active .wishes-modal-card {
+      transform: scale(1) translateY(0);
     }
 
-    .wish-form-label {
+    .wishes-modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: rgba(247, 239, 226, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      color: var(--color-brown);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .wishes-modal-close-btn:hover {
+      background: var(--color-gold);
+      color: var(--color-ivory);
+      transform: rotate(90deg);
+    }
+
+    .wishes-modal-header {
+      text-align: center;
+      margin-bottom: 1.25rem;
+      padding-right: 1.5rem;
+    }
+
+    .wishes-modal-heading {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-brown);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+
+    .wishes-modal-subtitle {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: rgba(61, 36, 24, 0.8);
+      margin: 0;
+    }
+
+    /* Modal Tabs (Send Wish / Read All Wishes) */
+    .wishes-modal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+      padding-bottom: 0.65rem;
+    }
+
+    .wishes-modal-tab {
+      background: none;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      color: rgba(61, 36, 24, 0.6);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .wishes-modal-tab.active {
+      background: var(--color-gold);
+      color: var(--color-ivory);
+    }
+
+    .wishes-modal-tab:hover:not(.active) {
+      color: var(--color-brown);
+      background: rgba(197, 160, 89, 0.15);
+    }
+
+    /* Form inside Modal */
+    .wishes-modal-form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .wishes-modal-label {
       display: block;
       font-family: var(--font-display);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       font-weight: 700;
       color: var(--color-brown);
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.35rem;
     }
 
-    .wish-input,
-    .wish-textarea {
+    .wishes-modal-input,
+    .wishes-modal-textarea {
       width: 100%;
-      background: #FFFDF9;
+      background: #FFFFFF;
       border: 1.5px solid rgba(197, 160, 89, 0.45);
       border-radius: 0.75rem;
-      padding: 0.8rem 1rem;
+      padding: 0.75rem 1rem;
       font-family: var(--font-body);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--color-brown-rich);
       outline: none;
       transition: all 0.25s ease;
       box-sizing: border-box;
     }
 
-    .wish-input:focus,
-    .wish-textarea:focus {
+    .wishes-modal-input:focus,
+    .wishes-modal-textarea:focus {
       border-color: var(--color-gold);
       box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
-      background: #FFFFFF;
     }
 
-    .wish-textarea {
+    .wishes-modal-textarea {
       resize: vertical;
-      min-height: 5.5rem;
-      line-height: 1.5;
+      min-height: 4.8rem;
+      line-height: 1.45;
     }
 
-    .wish-char-counter {
+    .wishes-modal-counter {
       display: flex;
       justify-content: flex-end;
       font-family: var(--font-body);
-      font-size: 0.75rem;
-      color: rgba(61, 36, 24, 0.6);
-      margin-top: 0.35rem;
+      font-size: 0.72rem;
+      color: rgba(61, 36, 24, 0.55);
+      margin-top: 0.25rem;
     }
 
-    .wish-form-footer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    @media (min-width: 640px) {
-      .wish-form-footer {
-        flex-direction: row;
-        justify-content: flex-end;
-      }
-    }
-
-    .btn-send-wish {
+    .btn-modal-send {
+      width: 100%;
       background: var(--color-gold);
       color: var(--color-ivory);
       font-family: var(--font-display);
@@ -1488,7 +1749,7 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 0.85rem 2.25rem;
+      padding: 0.85rem 1.5rem;
       border-radius: 9999px;
       border: 1px solid var(--color-gold-light);
       cursor: pointer;
@@ -1498,190 +1759,91 @@
       gap: 0.5rem;
       box-shadow: 0 6px 18px rgba(197, 160, 89, 0.25);
       transition: all 0.25s ease;
-      width: 100%;
+      margin-top: 0.5rem;
     }
 
-    @media (min-width: 640px) {
-      .btn-send-wish {
-        width: auto;
-      }
-    }
-
-    .btn-send-wish:hover:not(:disabled) {
+    .btn-modal-send:hover:not(:disabled) {
       background: var(--color-gold-dark);
       transform: translateY(-2px);
       box-shadow: 0 8px 22px rgba(158, 123, 52, 0.35);
     }
 
-    .btn-send-wish:disabled {
+    .btn-modal-send:disabled {
       opacity: 0.65;
       cursor: not-allowed;
       transform: none;
     }
 
-    /* Thank You Alert */
-    .wish-thankyou-alert {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: rgba(197, 160, 89, 0.12);
-      border: 1px solid var(--color-gold);
-      color: var(--color-brown-dark);
+    .wishes-modal-toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1100;
+      background: var(--color-ivory);
+      border: 1.5px solid var(--color-gold);
+      color: var(--color-brown);
       font-family: var(--font-heading);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 600;
       font-style: italic;
-      padding: 0.85rem 1.25rem;
-      border-radius: 0.75rem;
-      margin-top: 1rem;
-      text-align: center;
-      animation: fadeInWish 0.4s ease;
-    }
-
-    .wish-error-alert {
+      padding: 0.85rem 1.35rem;
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(46, 26, 16, 0.18);
       display: none;
-      background: rgba(185, 28, 28, 0.08);
-      border: 1px solid rgba(185, 28, 28, 0.3);
-      color: #7f1d1d;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      padding: 0.6rem 1rem;
-      border-radius: 0.5rem;
-      margin-top: 0.75rem;
-      text-align: center;
+      align-items: center;
+      gap: 0.5rem;
+      animation: toastIn 0.35s ease;
     }
 
-    @keyframes fadeInWish {
-      from { opacity: 0; transform: translateY(-6px); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Wishes Feed / Cards */
-    .wishes-feed-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-    }
-
-    .wishes-feed-title {
-      font-family: var(--font-display);
-      font-size: 0.95rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--color-brown);
-    }
-
-    .wishes-feed-count {
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      color: var(--color-gold-dark);
-      font-weight: 600;
-    }
-
-    .wishes-list {
+    /* Modal Read All Wishes List */
+    .wishes-modal-all-list {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 0.85rem;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding-right: 0.35rem;
     }
 
-    .wish-card {
-      background: var(--color-ivory);
-      border: 1.2px solid rgba(197, 160, 89, 0.45);
-      border-radius: 1.1rem;
-      padding: 1.35rem 1.5rem;
-      box-shadow: 0 6px 20px rgba(46, 26, 16, 0.04);
-      position: relative;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .wish-card:hover {
-      box-shadow: 0 10px 25px rgba(197, 160, 89, 0.15);
-      border-color: var(--color-gold);
-    }
-
-    .wish-card.sample-card {
-      background: radial-gradient(circle at top left, #FFFDF9, #FAF4E8);
-      border: 1.5px solid var(--color-gold);
-      box-shadow: 0 8px 24px rgba(197, 160, 89, 0.12);
-    }
-
-    .wish-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.65rem;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .wish-card-name {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--color-brown-rich);
-      letter-spacing: 0.03em;
-    }
-
-    .wish-card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-family: var(--font-display);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-gold-deep);
-      background: rgba(197, 160, 89, 0.16);
-      padding: 0.2rem 0.65rem;
-      border-radius: 9999px;
+    .wishes-modal-card-item {
+      background: rgba(247, 239, 226, 0.45);
       border: 1px solid rgba(197, 160, 89, 0.4);
-    }
-
-    .wish-card-date {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      color: rgba(61, 36, 24, 0.5);
-    }
-
-    .wish-card-message {
-      font-family: var(--font-heading);
-      font-size: 1.15rem;
-      line-height: 1.65;
-      color: rgba(46, 26, 16, 0.92);
-      font-style: italic;
-      word-break: break-word;
-    }
-
-    /* Database status info card */
-    .wishes-db-setup-box {
-      margin-top: 2rem;
-      padding: 1.15rem 1.25rem;
-      background: rgba(247, 239, 226, 0.65);
-      border: 1px dashed rgba(197, 160, 89, 0.55);
       border-radius: 0.85rem;
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      color: rgba(61, 36, 24, 0.8);
-      line-height: 1.6;
+      padding: 0.85rem 1rem;
     }
 
-    .wishes-db-setup-title {
-      font-family: var(--font-display);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-gold-deep);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.35rem;
+    .wishes-modal-card-item.sample-item {
+      background: radial-gradient(circle at top left, #FFFDF9, #FAF4E8);
+      border: 1.2px solid var(--color-gold);
+    }
+
+    @media (max-width: 600px) {
+      .floating-wishes-btn {
+        right: 1rem;
+        bottom: 1.25rem;
+        padding: 0.35rem 0.45rem 0.35rem 0.9rem;
+        font-size: 0.72rem;
+      }
+      .floating-wishes-icon-circle {
+        width: 2.1rem;
+        height: 2.1rem;
+      }
+      .floating-wishes-stream {
+        right: 1rem;
+        bottom: 4.8rem;
+        max-width: 240px;
+      }
+      .floating-wish-bubble {
+        padding: 0.7rem 0.85rem;
+      }
+      .floating-wish-bubble-msg {
+        font-size: 0.88rem;
+      }
     }
 
     /* =========================================================================
@@ -2385,91 +2547,6 @@
   </section>
 
   <!-- =========================================================================
-       SECTION: WEDDING WISHES (LEAVE YOUR WISHES)
-       ========================================================================= -->
-  <section id="wishes-section">
-    <div class="container wishes-container">
-
-      <!-- Section Divider -->
-      <div class="section-divider">
-        <span class="eyebrow">GUESTBOOK & BLESSINGS</span>
-        <h2 class="section-title">LEAVE YOUR WISHES</h2>
-        <div class="gold-line-wrapper">
-          <div class="gold-line"></div>
-          <span class="gold-star">✦</span>
-          <div class="gold-line"></div>
-        </div>
-        <p class="section-subtitle">
-          Share your love and blessings with Chandana & Harish.
-        </p>
-      </div>
-
-      <!-- Guest Wishes Form Card -->
-      <div class="wishes-form-card">
-        <form id="wishes-form" novalidate>
-          <div class="wish-form-group">
-            <label for="wish-name" class="wish-form-label">Your Name</label>
-            <input type="text" id="wish-name" class="wish-input" placeholder="Enter your name" maxlength="50" required autocomplete="name" />
-          </div>
-
-          <div class="wish-form-group">
-            <label for="wish-message" class="wish-form-label">Your Message (maximum 250 characters)</label>
-            <textarea id="wish-message" class="wish-textarea" placeholder="Write your warm blessings for Chandana & Harish..." maxlength="250" rows="3" required></textarea>
-            <div class="wish-char-counter">
-              <span id="wish-char-count">0</span> / 250
-            </div>
-          </div>
-
-          <div class="wish-form-footer">
-            <button type="submit" id="wish-submit-btn" class="btn-send-wish">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-              <span>SEND WISH</span>
-            </button>
-          </div>
-
-          <!-- Thank You Message -->
-          <div id="wish-thankyou-alert" class="wish-thankyou-alert" role="status">
-            <span>Thank you for your lovely wishes! ❤️</span>
-          </div>
-
-          <!-- Client Error Alert -->
-          <div id="wish-error-alert" class="wish-error-alert" role="alert"></div>
-        </form>
-      </div>
-
-      <!-- Feed Header -->
-      <div class="wishes-feed-header">
-        <span class="wishes-feed-title">Heartfelt Wishes</span>
-        <span class="wishes-feed-count" id="wishes-count-label">Wishes</span>
-      </div>
-
-      <!-- Submitted Wishes Feed -->
-      <div class="wishes-list" id="wishes-list">
-        <!-- Injected dynamically: Newest first, with Keerthana's wish included -->
-      </div>
-
-      <!-- Supabase Setup Notice (Transparent & Helpful) -->
-      <div class="wishes-db-setup-box" id="wishes-db-notice">
-        <div class="wishes-db-setup-title">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-          <span>Shared Database Status</span>
-        </div>
-        <p id="wishes-db-status-desc">
-          Wishes are saved in your browser session. To sync wishes live across all guests on their phones and laptops, connect your free Supabase database via <code>SUPABASE_CONFIG</code>.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =========================================================================
        SECTION 7: FINAL THANK YOU
        ========================================================================= -->
   <section id="thank-you-section">
@@ -2580,6 +2657,88 @@
         <div class="lightbox-counter" id="lightbox-counter"></div>
       </div>
     </div>
+  </div>
+
+  <!-- =========================================================================
+       FLOATING WISHES: RIGHT-SIDE BUBBLE STREAM, TRIGGER BUTTON & DIALOG
+       ========================================================================= -->
+  <!-- Floating Message Bubbles Stream on the Right -->
+  <div id="floating-wishes-stream" class="floating-wishes-stream" aria-live="polite"></div>
+
+  <!-- Floating Message Icon / Button -->
+  <button id="floating-wishes-btn" class="floating-wishes-btn" aria-label="Drop a Wish for Chandana & Harish">
+    <span class="floating-wishes-label">DROP A WISH</span>
+    <div class="floating-wishes-icon-circle">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        <path d="M12 7v2" stroke-width="1.8"></path>
+        <circle cx="12" cy="12" r="0.5" fill="currentColor"></circle>
+      </svg>
+      <span class="floating-wishes-badge" id="floating-wishes-count">1</span>
+    </div>
+  </button>
+
+  <!-- Message Popup Dialog Modal -->
+  <div id="wishes-modal-backdrop" class="wishes-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="wishes-modal-title">
+    <div class="wishes-modal-card">
+      <button class="wishes-modal-close-btn" id="wishes-modal-close-btn" aria-label="Close dialog">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="wishes-modal-header">
+        <h2 class="wishes-modal-heading" id="wishes-modal-title">SEND YOUR WISHES</h2>
+        <p class="wishes-modal-subtitle">Leave a little love for Chandana & Harish.</p>
+      </div>
+
+      <!-- Modal Navigation Tabs -->
+      <div class="wishes-modal-nav">
+        <button type="button" class="wishes-modal-tab active" id="tab-write-wish">Write a Wish</button>
+        <button type="button" class="wishes-modal-tab" id="tab-read-wishes">All Wishes (<span id="modal-wishes-tab-count">1</span>)</button>
+      </div>
+
+      <!-- Tab 1: Form Panel -->
+      <div id="panel-write-wish">
+        <form id="floating-wishes-form" novalidate>
+          <div class="wishes-modal-form-group">
+            <label for="floating-wish-name" class="wishes-modal-label">Your Name</label>
+            <input type="text" id="floating-wish-name" class="wishes-modal-input" placeholder="Enter your name" maxlength="50" required autocomplete="name" />
+          </div>
+
+          <div class="wishes-modal-form-group">
+            <label for="floating-wish-message" class="wishes-modal-label">Your Message (maximum 250 characters)</label>
+            <textarea id="floating-wish-message" class="wishes-modal-textarea" placeholder="Write your warm blessings for Chandana & Harish..." maxlength="250" rows="3" required></textarea>
+            <div class="wishes-modal-counter">
+              <span id="floating-wish-char-count">0</span> / 250
+            </div>
+          </div>
+
+          <div id="floating-wish-error" class="wish-error-alert" style="display:none; margin-bottom: 0.75rem;"></div>
+
+          <button type="submit" id="floating-wish-submit-btn" class="btn-modal-send">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span>SEND WISH</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Tab 2: Read All Wishes Panel -->
+      <div id="panel-read-wishes" style="display: none;">
+        <div class="wishes-modal-all-list" id="wishes-modal-all-list">
+          <!-- Populated dynamically with all wishes -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Message -->
+  <div id="floating-wish-toast" class="wishes-modal-toast">
+    <span>Thank you for your lovely wishes! ❤️</span>
   </div>
 
   <!-- =========================================================================
@@ -3053,15 +3212,14 @@
       }
 
       /* ==========================================
-         WEDDING WISHES (GUESTBOOK) & SUPABASE LOGIC
+         FLOATING WEDDING WISHES & SUPABASE LOGIC
          ========================================== */
       const WISHES_STORAGE_KEY = "chandana_harish_guest_wishes_v1";
       const WISHES_COOLDOWN_KEY = "chandana_harish_wish_last_time";
 
-      // Optional Supabase configuration: Set URL and public Anon Key to enable real-time shared database across all guests
       window.SUPABASE_CONFIG = window.SUPABASE_CONFIG || {
-        url: "",       // e.g. "https://YOUR_PROJECT_ID.supabase.co"
-        anonKey: ""    // e.g. "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        url: "",
+        anonKey: ""
       };
 
       const SAMPLE_WISH = {
@@ -3072,18 +3230,27 @@
         createdAt: "Family Blessing"
       };
 
-      const wishForm = document.getElementById("wishes-form");
-      const wishNameInput = document.getElementById("wish-name");
-      const wishMsgInput = document.getElementById("wish-message");
-      const wishCharCount = document.getElementById("wish-char-count");
-      const wishSubmitBtn = document.getElementById("wish-submit-btn");
-      const wishThankYouAlert = document.getElementById("wish-thankyou-alert");
-      const wishErrorAlert = document.getElementById("wish-error-alert");
-      const wishesList = document.getElementById("wishes-list");
-      const wishesCountLabel = document.getElementById("wishes-count-label");
-      const wishesDbDesc = document.getElementById("wishes-db-status-desc");
-
       let guestWishes = [];
+
+      // DOM Elements
+      const floatingBtn = document.getElementById("floating-wishes-btn");
+      const floatingCount = document.getElementById("floating-wishes-count");
+      const modalBackdrop = document.getElementById("wishes-modal-backdrop");
+      const modalCloseBtn = document.getElementById("wishes-modal-close-btn");
+      const tabWrite = document.getElementById("tab-write-wish");
+      const tabRead = document.getElementById("tab-read-wishes");
+      const tabCount = document.getElementById("modal-wishes-tab-count");
+      const panelWrite = document.getElementById("panel-write-wish");
+      const panelRead = document.getElementById("panel-read-wishes");
+      const floatingForm = document.getElementById("floating-wishes-form");
+      const floatingNameInput = document.getElementById("floating-wish-name");
+      const floatingMsgInput = document.getElementById("floating-wish-message");
+      const floatingCharCount = document.getElementById("floating-wish-char-count");
+      const floatingSubmitBtn = document.getElementById("floating-wish-submit-btn");
+      const floatingError = document.getElementById("floating-wish-error");
+      const floatingToast = document.getElementById("floating-wish-toast");
+      const floatingStream = document.getElementById("floating-wishes-stream");
+      const modalAllList = document.getElementById("wishes-modal-all-list");
 
       function escapeHtml(str) {
         if (!str) return "";
@@ -3097,6 +3264,127 @@
 
       function isSupabaseConfigured() {
         return !!(window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url && window.SUPABASE_CONFIG.anonKey);
+      }
+
+      function openWishesModal(initialTab = "write") {
+        if (!modalBackdrop) return;
+        modalBackdrop.classList.add("active");
+        document.body.style.overflow = "hidden";
+        if (initialTab === "read") {
+          switchTab("read");
+        } else {
+          switchTab("write");
+          setTimeout(() => { if (floatingNameInput) floatingNameInput.focus(); }, 150);
+        }
+      }
+
+      function closeWishesModal() {
+        if (!modalBackdrop) return;
+        modalBackdrop.classList.remove("active");
+        document.body.style.overflow = "";
+        if (floatingError) floatingError.style.display = "none";
+      }
+
+      function switchTab(tab) {
+        if (tab === "read") {
+          if (tabWrite) tabWrite.classList.remove("active");
+          if (tabRead) tabRead.classList.add("active");
+          if (panelWrite) panelWrite.style.display = "none";
+          if (panelRead) panelRead.style.display = "block";
+          renderAllWishesModal();
+        } else {
+          if (tabWrite) tabWrite.classList.add("active");
+          if (tabRead) tabRead.classList.remove("active");
+          if (panelWrite) panelWrite.style.display = "block";
+          if (panelRead) panelRead.style.display = "none";
+        }
+      }
+
+      function showToast(msg) {
+        if (!floatingToast) return;
+        floatingToast.innerHTML = `<span>${msg}</span>`;
+        floatingToast.style.display = "flex";
+        setTimeout(() => {
+          if (floatingToast) floatingToast.style.display = "none";
+        }, 5500);
+      }
+
+      function showModalError(msg) {
+        if (!floatingError) return;
+        floatingError.textContent = msg;
+        floatingError.style.display = "block";
+      }
+
+      function renderAllWishesModal() {
+        if (!modalAllList) return;
+        const allWishes = [SAMPLE_WISH, ...guestWishes];
+        modalAllList.innerHTML = allWishes.map(w => `
+          <div class="wishes-modal-card-item ${w.isSample ? 'sample-item' : ''}">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+              <span style="font-family:var(--font-display); font-weight:700; font-size:0.85rem; color:var(--color-brown);">${escapeHtml(w.name)}</span>
+              <span style="font-size:0.65rem; color:var(--color-gold-dark); font-weight:700; text-transform:uppercase;">${w.isSample ? 'Family Blessing' : escapeHtml(w.createdAt || 'Recent')}</span>
+            </div>
+            <p style="font-family:var(--font-heading); font-style:italic; font-size:0.95rem; margin:0; color:rgba(46,26,16,0.9); line-height:1.45;">"${escapeHtml(w.message)}"</p>
+          </div>
+        `).join("");
+      }
+
+      function addFloatingBubble(wish, autoDismissMs = 0) {
+        if (!floatingStream) return;
+        const bubble = document.createElement("div");
+        bubble.className = "floating-wish-bubble";
+        bubble.setAttribute("role", "button");
+        bubble.setAttribute("tabindex", "0");
+        bubble.innerHTML = `
+          <div class="floating-wish-bubble-header">
+            <span class="floating-wish-bubble-name">${escapeHtml(wish.name)}</span>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              ${wish.isSample ? '<span class="floating-wish-bubble-badge">Family</span>' : ''}
+              <button class="floating-wish-bubble-close" aria-label="Dismiss wish bubble" title="Dismiss">✕</button>
+            </div>
+          </div>
+          <div class="floating-wish-bubble-msg">"${escapeHtml(wish.message)}"</div>
+        `;
+
+        // Click bubble to read all wishes
+        bubble.addEventListener("click", function(e) {
+          if (e.target.closest(".floating-wish-bubble-close")) return;
+          openWishesModal("read");
+        });
+
+        // Close button dismisses individual bubble
+        const closeBtn = bubble.querySelector(".floating-wish-bubble-close");
+        if (closeBtn) {
+          closeBtn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            bubble.style.opacity = "0";
+            bubble.style.transform = "translateX(20px)";
+            setTimeout(() => bubble.remove(), 250);
+          });
+        }
+
+        // Keep maximum 3 bubbles visible in stream at once
+        while (floatingStream.children.length >= 3) {
+          floatingStream.removeChild(floatingStream.firstChild);
+        }
+
+        floatingStream.appendChild(bubble);
+
+        if (autoDismissMs > 0) {
+          setTimeout(() => {
+            if (bubble && bubble.parentNode) {
+              bubble.style.opacity = "0";
+              bubble.style.transform = "translateX(20px)";
+              setTimeout(() => bubble.remove(), 250);
+            }
+          }, autoDismissMs);
+        }
+      }
+
+      function updateWishesCountUI() {
+        const total = 1 + guestWishes.length;
+        if (floatingCount) floatingCount.textContent = total;
+        if (tabCount) tabCount.textContent = total;
       }
 
       async function fetchWishes() {
@@ -3117,10 +3405,8 @@
                 createdAt: new Date(w.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric" }),
                 isSample: false
               }));
-              if (wishesDbDesc) {
-                wishesDbDesc.innerHTML = '🟢 <strong>Connected to shared Supabase database.</strong> Guest wishes are live and visible across all guest phones and devices.';
-              }
-              renderWishes();
+              updateWishesCountUI();
+              initFloatingStream();
               return;
             }
           } catch (e) {
@@ -3128,101 +3414,116 @@
           }
         }
 
-        // Fallback to local storage
         try {
           const raw = localStorage.getItem(WISHES_STORAGE_KEY);
           guestWishes = raw ? JSON.parse(raw) : [];
         } catch (e) {
           guestWishes = [];
         }
-        renderWishes();
+        updateWishesCountUI();
+        initFloatingStream();
       }
 
-      function renderWishes() {
-        if (!wishesList) return;
-        
-        // Show newest wishes first, with sample wish pinned at top
-        const allWishes = [SAMPLE_WISH, ...guestWishes];
-
-        wishesList.innerHTML = allWishes.map(item => {
-          const isSample = item.isSample;
-          return `
-            <div class="wish-card ${isSample ? 'sample-card' : ''}">
-              <div class="wish-card-top">
-                <span class="wish-card-name">${escapeHtml(item.name)}</span>
-                ${isSample ? '<span class="wish-card-badge">Family Blessing</span>' : `<span class="wish-card-date">${escapeHtml(item.createdAt || 'Just now')}</span>`}
-              </div>
-              <p class="wish-card-message">"${escapeHtml(item.message)}"</p>
-            </div>
-          `;
-        }).join("");
-
-        if (wishesCountLabel) {
-          const count = allWishes.length;
-          wishesCountLabel.textContent = `${count} ${count === 1 ? 'Wish' : 'Wishes'}`;
+      function initFloatingStream() {
+        if (!floatingStream) return;
+        floatingStream.innerHTML = "";
+        // Show initial sample wish from Keerthana
+        addFloatingBubble(SAMPLE_WISH);
+        // If there are recent submitted wishes, show the latest one
+        if (guestWishes.length > 0) {
+          addFloatingBubble(guestWishes[0]);
         }
       }
 
-      // Live character counter
-      if (wishMsgInput && wishCharCount) {
-        wishMsgInput.addEventListener("input", function() {
+      // Event listeners
+      if (floatingBtn) {
+        floatingBtn.addEventListener("click", () => openWishesModal("write"));
+      }
+
+      if (modalCloseBtn) {
+        modalCloseBtn.addEventListener("click", closeWishesModal);
+      }
+
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener("click", function(e) {
+          if (e.target === modalBackdrop) closeWishesModal();
+        });
+      }
+
+      window.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && modalBackdrop && modalBackdrop.classList.contains("active")) {
+          closeWishesModal();
+        }
+      });
+
+      if (tabWrite) {
+        tabWrite.addEventListener("click", () => switchTab("write"));
+      }
+      if (tabRead) {
+        tabRead.addEventListener("click", () => switchTab("read"));
+      }
+
+      if (floatingMsgInput && floatingCharCount) {
+        floatingMsgInput.addEventListener("input", function() {
           const len = this.value.length;
-          wishCharCount.textContent = len;
+          floatingCharCount.textContent = len;
           if (len > 250) {
-            wishCharCount.style.color = "#dc2626";
+            floatingCharCount.style.color = "#dc2626";
           } else {
-            wishCharCount.style.color = "";
+            floatingCharCount.style.color = "";
           }
         });
       }
 
-      // Handle submission
-      if (wishForm) {
-        wishForm.addEventListener("submit", async function(e) {
+      if (floatingForm) {
+        floatingForm.addEventListener("submit", async function(e) {
           e.preventDefault();
-          if (wishErrorAlert) wishErrorAlert.style.display = "none";
-          if (wishThankYouAlert) wishThankYouAlert.style.display = "none";
+          if (floatingError) floatingError.style.display = "none";
 
-          const name = (wishNameInput?.value || "").trim();
-          const message = (wishMsgInput?.value || "").trim();
+          const name = (floatingNameInput?.value || "").trim();
+          const message = (floatingMsgInput?.value || "").trim();
 
-          // Validation
           if (name.length < 2) {
-            showError("Please enter your name (at least 2 characters).");
+            showModalError("Please enter your name (at least 2 characters).");
             return;
           }
           if (name.length > 50) {
-            showError("Name cannot exceed 50 characters.");
+            showModalError("Name cannot exceed 50 characters.");
             return;
           }
           if (message.length < 3) {
-            showError("Please enter your wish message.");
+            showModalError("Please enter your message for the couple.");
             return;
           }
           if (message.length > 250) {
-            showError("Message cannot exceed 250 characters.");
+            showModalError("Message cannot exceed 250 characters.");
             return;
           }
 
-          // Anti-spam cooldown (10 seconds between submissions per visitor)
+          // Anti-spam cooldown (10s)
           const lastSubmit = parseInt(localStorage.getItem(WISHES_COOLDOWN_KEY) || "0", 10);
           const now = Date.now();
           if (now - lastSubmit < 10000) {
             const waitSec = Math.ceil((10000 - (now - lastSubmit)) / 1000);
-            showError(`Please wait ${waitSec} second${waitSec > 1 ? 's' : ''} before sending another wish.`);
+            showModalError(`Please wait ${waitSec}s before sending another wish.`);
             return;
           }
 
-          // Disable button during submission
-          if (wishSubmitBtn) {
-            wishSubmitBtn.disabled = true;
-            const spanText = wishSubmitBtn.querySelector("span");
-            if (spanText) spanText.textContent = "SENDING...";
+          if (floatingSubmitBtn) {
+            floatingSubmitBtn.disabled = true;
+            const span = floatingSubmitBtn.querySelector("span");
+            if (span) span.textContent = "SENDING...";
           }
 
           let saveSuccess = false;
+          let newWish = {
+            id: "local-" + Date.now(),
+            name: name,
+            message: message,
+            createdAt: "Just now",
+            isSample: false
+          };
 
-          // Attempt save to Supabase if configured
           if (isSupabaseConfigured()) {
             try {
               const res = await fetch(`${window.SUPABASE_CONFIG.url}/rest/v1/wedding_wishes`, {
@@ -3241,13 +3542,7 @@
               if (res.ok) {
                 const inserted = await res.json();
                 if (inserted && inserted[0]) {
-                  guestWishes.unshift({
-                    id: inserted[0].id,
-                    name: inserted[0].guest_name,
-                    message: inserted[0].message,
-                    createdAt: "Just now",
-                    isSample: false
-                  });
+                  newWish.id = inserted[0].id;
                   saveSuccess = true;
                 }
               }
@@ -3256,52 +3551,39 @@
             }
           }
 
-          // Fallback or local save
           if (!saveSuccess) {
-            const newWish = {
-              id: "local-" + Date.now(),
-              name: name,
-              message: message,
-              createdAt: "Just now",
-              isSample: false
-            };
-            guestWishes.unshift(newWish);
             try {
-              localStorage.setItem(WISHES_STORAGE_KEY, JSON.stringify(guestWishes));
+              const updated = [newWish, ...guestWishes];
+              localStorage.setItem(WISHES_STORAGE_KEY, JSON.stringify(updated));
             } catch (e) {
               console.warn("Could not save wish to localStorage:", e);
             }
           }
 
+          guestWishes.unshift(newWish);
           localStorage.setItem(WISHES_COOLDOWN_KEY, now.toString());
 
           // Reset inputs
-          if (wishNameInput) wishNameInput.value = "";
-          if (wishMsgInput) wishMsgInput.value = "";
-          if (wishCharCount) wishCharCount.textContent = "0";
+          if (floatingNameInput) floatingNameInput.value = "";
+          if (floatingMsgInput) floatingMsgInput.value = "";
+          if (floatingCharCount) floatingCharCount.textContent = "0";
 
-          // Show thank-you message
-          if (wishThankYouAlert) {
-            wishThankYouAlert.style.display = "flex";
-            setTimeout(() => {
-              if (wishThankYouAlert) wishThankYouAlert.style.display = "none";
-            }, 6000);
-          }
+          // Close modal immediately as required
+          closeWishesModal();
 
-          renderWishes();
+          // Display wish as small elegant floating bubble along right side
+          addFloatingBubble(newWish);
+          updateWishesCountUI();
 
-          if (wishSubmitBtn) {
-            wishSubmitBtn.disabled = false;
-            const spanText = wishSubmitBtn.querySelector("span");
-            if (spanText) spanText.textContent = "SEND WISH";
+          // Show thank you toast
+          showToast("Thank you for your lovely wishes! ❤️");
+
+          if (floatingSubmitBtn) {
+            floatingSubmitBtn.disabled = false;
+            const span = floatingSubmitBtn.querySelector("span");
+            if (span) span.textContent = "SEND WISH";
           }
         });
-      }
-
-      function showError(msg) {
-        if (!wishErrorAlert) return;
-        wishErrorAlert.textContent = msg;
-        wishErrorAlert.style.display = "block";
       }
 
       fetchWishes();
