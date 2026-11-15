@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { DoorEntrance } from './components/DoorEntrance/DoorEntrance';
 import { InvitationReveal } from './components/InvitationReveal';
 import { PhotoGallery } from './components/PhotoGallery';
 import { PreWeddingFilm } from './components/PreWeddingFilm';
@@ -9,7 +8,6 @@ import { FinalThankYou } from './components/FinalThankYou';
 import { weddingData } from './data/weddingData';
 
 export function App() {
-  const [isDoorOpen, setIsDoorOpen] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
 
   React.useEffect(() => {
@@ -28,10 +26,6 @@ export function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleDoorOpen = () => {
-    setIsDoorOpen(true);
-  };
-
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
@@ -42,71 +36,61 @@ export function App() {
   return (
     <div className="min-h-screen bg-ivory text-darkBrown relative selection:bg-antiqueGold selection:text-ivory">
       
-      {/* 1. Subtle Floating Quick Navigation Pill (Appears at top, hides on scroll down, reveals at top) */}
-      {isDoorOpen && (
-        <nav
-          className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 bg-ivory/95 backdrop-blur-md border border-antiqueGold/60 rounded-full px-4 py-1.5 shadow-card-royal flex items-center gap-2 sm:gap-3 transition-all duration-500 ${isNavVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-6 pointer-events-none'}`}
-          aria-label="Quick Wedding Navigation"
+      {/* 1. Floating Quick Navigation Pill (Appears at top immediately, hides on scroll down, reveals at top) */}
+      <nav
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 bg-ivory/95 backdrop-blur-md border border-antiqueGold/60 rounded-full px-4 py-1.5 shadow-card-royal flex items-center gap-2 sm:gap-3 transition-all duration-500 ${isNavVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-6 pointer-events-none'}`}
+        aria-label="Quick Wedding Navigation"
+      >
+        <button
+          onClick={() => scrollToSection('invitation-section')}
+          className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
         >
-          <button
-            onClick={() => scrollToSection('invitation-section')}
-            className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
-          >
-            INVITATION
-          </button>
+          INVITATION
+        </button>
 
-          <span className="text-antiqueGold/40">•</span>
+        <span className="text-antiqueGold/40">•</span>
 
-          <button
-            onClick={() => scrollToSection('gallery-section')}
-            className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
-          >
-            MOMENTS
-          </button>
+        <button
+          onClick={() => scrollToSection('gallery-section')}
+          className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
+        >
+          MOMENTS
+        </button>
 
-          <span className="text-antiqueGold/40">•</span>
+        <span className="text-antiqueGold/40">•</span>
 
-          <button
-            onClick={() => scrollToSection('film-section')}
-            className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
-          >
-            FILM
-          </button>
+        <button
+          onClick={() => scrollToSection('film-section')}
+          className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
+        >
+          FILM
+        </button>
 
-          <span className="text-antiqueGold/40">•</span>
+        <span className="text-antiqueGold/40">•</span>
 
-          <button
-            onClick={() => scrollToSection('celebrations-section')}
-            className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
-          >
-            EVENTS
-          </button>
+        <button
+          onClick={() => scrollToSection('celebrations-section')}
+          className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
+        >
+          EVENTS
+        </button>
 
-          <span className="text-antiqueGold/40">•</span>
+        <span className="text-antiqueGold/40">•</span>
 
-          <button
-            onClick={() => scrollToSection('location-section')}
-            className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
-          >
-            VENUE
-          </button>
-        </nav>
-      )}
+        <button
+          onClick={() => scrollToSection('location-section')}
+          className="px-2 py-1 text-[11px] sm:text-xs font-serifDisplay tracking-wider uppercase text-darkBrown/80 hover:text-darkBrown hover:bg-cream rounded-full transition-colors font-medium"
+        >
+          VENUE
+        </button>
+      </nav>
 
-
-
-      {/* DOOR ENTRANCE – MINIMAL VERSION (Shows ONLY the Indian Wooden Double Doors, triggers once per page visit) */}
-      <DoorEntrance
-        onOpen={handleDoorOpen}
-      />
-
-      {/* MAIN WEBSITE SECTIONS REVEALED UNDERNEATH */}
+      {/* MAIN WEDDING WEBSITE SECTIONS (Visible immediately upon visiting) */}
       <main className="relative">
         {/* SECTION 2: WEDDING INVITATION REVEAL */}
         <InvitationReveal
           invitationImage={weddingData.couple.invitationImage}
           fallbackImage={weddingData.couple.coupleImage}
-          isDoorOpen={isDoorOpen}
         />
 
         {/* SECTION 3: OUR BEAUTIFUL MOMENTS (A JOURNEY OF LOVE) */}
