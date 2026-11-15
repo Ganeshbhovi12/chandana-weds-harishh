@@ -297,14 +297,11 @@ export const weddingData = {
   },
 
   wishes: {
-    heading: "WITH LOVE & BLESSINGS",
-    subtitle: "A heartfelt blessing as Chandana & Harish begin their new journey together",
+    heading: "LEAVE YOUR WISHES",
+    subtitle: "Share your love and blessings with Chandana & Harish.",
     sampleWish: {
-      author: "Keerthana",
-      role: "Sister of the Bride",
-      salutation: "Dear Chandana and Harish,",
-      message: "Wishing you both a lifetime filled with endless love, happiness, laughter and beautiful memories. May your journey together be blessed with understanding, togetherness and countless reasons to smile.",
-      closing: "Lots of love and blessings to you both! ❤️"
+      author: "Keerthana · Chandana's Sister",
+      message: "Wishing you both a lifetime of love and happiness. Congratulations! ❤️"
     }
   },
 
