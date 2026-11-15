@@ -1458,16 +1458,17 @@
       }
     }
 
-    /* Floating Wishes Vertical Stream on the right */
+    /* Floating Wishes Vertical Stream on the right (Single Wish at a Time) */
     .floating-wishes-stream {
       position: fixed;
       right: 1.5rem;
       bottom: 5.75rem;
       z-index: 850;
       display: flex;
-      flex-direction: column-reverse;
-      gap: 0.65rem;
+      flex-direction: column;
+      justify-content: flex-end;
       max-width: 280px;
+      width: calc(100vw - 3rem);
       pointer-events: none;
     }
 
@@ -1479,14 +1480,25 @@
       border-radius: 1rem;
       padding: 0.85rem 1rem;
       box-shadow: 0 8px 25px rgba(46, 26, 16, 0.12);
-      animation: floatBubbleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       position: relative;
       cursor: pointer;
-      transition: all 0.25s ease;
+      opacity: 0;
+      transform: translateX(16px);
+      transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+    }
+
+    .floating-wish-bubble.bubble-active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .floating-wish-bubble.bubble-exit {
+      opacity: 0;
+      transform: translateX(-16px);
     }
 
     .floating-wish-bubble:hover {
-      transform: translateX(-4px);
       box-shadow: 0 10px 28px rgba(197, 160, 89, 0.25);
       border-color: var(--color-gold);
     }
@@ -1547,17 +1559,6 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
-    }
-
-    @keyframes floatBubbleIn {
-      0% {
-        opacity: 0;
-        transform: translateY(16px) scale(0.92);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
     }
 
     /* Message Dialog Modal */
@@ -3329,12 +3330,54 @@
         `).join("");
       }
 
-      function addFloatingBubble(wish, autoDismissMs = 0) {
+      let currentWishIndex = 0;
+      let wishCycleTimer = null;
+      const WISH_DISPLAY_TIME = 4000; // 4 seconds per wish
+      const WISH_SLIDE_TIME = 600;    // 600ms smooth cinematic slide & fade
+
+      function getAllWishes() {
+        return [SAMPLE_WISH, ...guestWishes];
+      }
+
+      function showNextRotatingWish() {
         if (!floatingStream) return;
+        const allWishes = getAllWishes();
+        if (allWishes.length === 0) return;
+
+        // Restart from first wish after the last wish
+        if (currentWishIndex >= allWishes.length) {
+          currentWishIndex = 0;
+        }
+
+        const wishToShow = allWishes[currentWishIndex];
+        currentWishIndex = (currentWishIndex + 1) % allWishes.length;
+
+        const existingBubble = floatingStream.querySelector(".floating-wish-bubble");
+        if (existingBubble) {
+          // Smooth fade-out and horizontal slide away
+          existingBubble.classList.remove("bubble-active");
+          existingBubble.classList.add("bubble-exit");
+          setTimeout(() => {
+            if (existingBubble && existingBubble.parentNode) {
+              existingBubble.remove();
+            }
+            renderSingleBubble(wishToShow);
+          }, WISH_SLIDE_TIME);
+        } else {
+          renderSingleBubble(wishToShow);
+        }
+      }
+
+      function renderSingleBubble(wish) {
+        if (!floatingStream) return;
+        // Strictly ensure only ONE wish card is ever present
+        floatingStream.innerHTML = "";
+
         const bubble = document.createElement("div");
         bubble.className = "floating-wish-bubble";
         bubble.setAttribute("role", "button");
         bubble.setAttribute("tabindex", "0");
+        bubble.setAttribute("aria-label", `Wedding wish from ${wish.name}`);
         bubble.innerHTML = `
           <div class="floating-wish-bubble-header">
             <span class="floating-wish-bubble-name">${escapeHtml(wish.name)}</span>
@@ -3352,33 +3395,32 @@
           openWishesModal("read");
         });
 
-        // Close button dismisses individual bubble
+        // Close button dismisses current bubble and transitions to next
         const closeBtn = bubble.querySelector(".floating-wish-bubble-close");
         if (closeBtn) {
           closeBtn.addEventListener("click", function(e) {
             e.stopPropagation();
-            bubble.style.opacity = "0";
-            bubble.style.transform = "translateX(20px)";
-            setTimeout(() => bubble.remove(), 250);
+            clearTimeout(wishCycleTimer);
+            bubble.classList.remove("bubble-active");
+            bubble.classList.add("bubble-exit");
+            setTimeout(() => {
+              if (bubble && bubble.parentNode) bubble.remove();
+              wishCycleTimer = setTimeout(showNextRotatingWish, 800);
+            }, WISH_SLIDE_TIME);
           });
-        }
-
-        // Keep maximum 3 bubbles visible in stream at once
-        while (floatingStream.children.length >= 3) {
-          floatingStream.removeChild(floatingStream.firstChild);
         }
 
         floatingStream.appendChild(bubble);
 
-        if (autoDismissMs > 0) {
-          setTimeout(() => {
-            if (bubble && bubble.parentNode) {
-              bubble.style.opacity = "0";
-              bubble.style.transform = "translateX(20px)";
-              setTimeout(() => bubble.remove(), 250);
-            }
-          }, autoDismissMs);
-        }
+        // Trigger smooth fade-in and slide transition
+        void bubble.offsetWidth;
+        bubble.classList.add("bubble-active");
+
+        // Keep visible for exactly 4 seconds, then transition to next wish
+        clearTimeout(wishCycleTimer);
+        wishCycleTimer = setTimeout(() => {
+          showNextRotatingWish();
+        }, WISH_DISPLAY_TIME);
       }
 
       function updateWishesCountUI() {
@@ -3406,7 +3448,8 @@
                 isSample: false
               }));
               updateWishesCountUI();
-              initFloatingStream();
+              currentWishIndex = 0;
+              showNextRotatingWish();
               return;
             }
           } catch (e) {
@@ -3421,18 +3464,8 @@
           guestWishes = [];
         }
         updateWishesCountUI();
-        initFloatingStream();
-      }
-
-      function initFloatingStream() {
-        if (!floatingStream) return;
-        floatingStream.innerHTML = "";
-        // Show initial sample wish from Keerthana
-        addFloatingBubble(SAMPLE_WISH);
-        // If there are recent submitted wishes, show the latest one
-        if (guestWishes.length > 0) {
-          addFloatingBubble(guestWishes[0]);
-        }
+        currentWishIndex = 0;
+        showNextRotatingWish();
       }
 
       // Event listeners
@@ -3571,9 +3604,10 @@
           // Close modal immediately as required
           closeWishesModal();
 
-          // Display wish as small elegant floating bubble along right side
-          addFloatingBubble(newWish);
+          // Add to rotation and set next rotation to show the new wish
+          currentWishIndex = 1;
           updateWishesCountUI();
+          renderAllWishesModal();
 
           // Show thank you toast
           showToast("Thank you for your lovely wishes! ❤️");

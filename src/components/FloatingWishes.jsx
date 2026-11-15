@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Send, X, Heart, AlertCircle } from 'lucide-react';
 
@@ -22,7 +22,8 @@ export const FloatingWishes = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [floatingStream, setFloatingStream] = useState([SAMPLE_WISH]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDismissed, setIsDismissed] = useState(false);
 
   const getSupabaseConfig = () => {
     return window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url && window.SUPABASE_CONFIG.anonKey
@@ -50,7 +51,6 @@ export const FloatingWishes = () => {
               isSample: false
             }));
             setWishes(parsed);
-            setFloatingStream([parsed[0], SAMPLE_WISH]);
           } else {
             loadLocalWishes();
           }
@@ -67,18 +67,34 @@ export const FloatingWishes = () => {
       if (stored) {
         const parsed = JSON.parse(stored);
         setWishes(parsed);
-        if (parsed.length > 0) {
-          setFloatingStream([parsed[0], SAMPLE_WISH]);
-        }
       }
     } catch (e) {
       console.warn("Could not read local wishes:", e);
     }
   };
 
-  const handleDismissBubble = (id, e) => {
+  const allWishes = [SAMPLE_WISH, ...wishes];
+
+  // 4-second automatic rotation cycling through one wish at a time
+  useEffect(() => {
+    if (allWishes.length === 0 || isDismissed) return;
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % allWishes.length);
+    }, 4600); // 4000ms display + 600ms transition
+
+    return () => clearInterval(timer);
+  }, [allWishes.length, isDismissed]);
+
+  const currentWish = allWishes[currentIndex % allWishes.length] || SAMPLE_WISH;
+
+  const handleDismissBubble = (e) => {
     e.stopPropagation();
-    setFloatingStream(prev => prev.filter(item => item.id !== id));
+    setIsDismissed(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % allWishes.length);
+      setIsDismissed(false);
+    }, 800);
   };
 
   const handleSubmit = async (e) => {
@@ -105,7 +121,7 @@ export const FloatingWishes = () => {
       return;
     }
 
-    // Cooldown
+    // Cooldown: 10 seconds between submissions
     const lastSubmit = parseInt(localStorage.getItem(WISHES_COOLDOWN_KEY) || "0", 10);
     const now = Date.now();
     if (now - lastSubmit < 10000) {
@@ -150,7 +166,7 @@ export const FloatingWishes = () => {
       }
     }
 
-    setWishes(prev => {
+    setWishes((prev) => {
       const updated = [newWish, ...prev];
       try {
         localStorage.setItem(WISHES_STORAGE_KEY, JSON.stringify(updated));
@@ -170,8 +186,9 @@ export const FloatingWishes = () => {
     // Close dialog immediately as required
     setIsOpen(false);
 
-    // Add new wish to floating stream
-    setFloatingStream(prev => [newWish, ...prev.slice(0, 2)]);
+    // Show the newly submitted wish in next rotation (index 1 in [SAMPLE_WISH, newWish, ...])
+    setCurrentIndex(1);
+    setIsDismissed(false);
 
     // Show toast
     setShowToast(true);
@@ -179,39 +196,38 @@ export const FloatingWishes = () => {
   };
 
   const totalWishes = 1 + wishes.length;
-  const allWishesList = [SAMPLE_WISH, ...wishes];
 
   return (
     <>
-      {/* 1. Floating Message Bubbles Stream on the Right */}
-      <div className="fixed right-4 sm:right-6 bottom-24 z-40 flex flex-col-reverse gap-2.5 max-w-[280px] pointer-events-none">
-        <AnimatePresence>
-          {floatingStream.map((item) => (
+      {/* 1. Floating Wish Display: Strictly ONE Card at a time with 4-second cycling */}
+      <div className="fixed right-4 sm:right-6 bottom-24 z-40 max-w-[280px] pointer-events-none">
+        <AnimatePresence mode="wait">
+          {!isDismissed && currentWish && (
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 16, scale: 0.94 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              key={currentWish.id}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
               onClick={() => {
                 setActiveTab("read");
                 setIsOpen(true);
               }}
-              className="pointer-events-auto cursor-pointer bg-ivory/95 backdrop-blur-md border border-antiqueGold/60 rounded-2xl p-3 sm:p-3.5 shadow-card-royal hover:shadow-lg transition-all hover:-translate-x-1"
+              className="pointer-events-auto cursor-pointer bg-ivory/95 backdrop-blur-md border border-antiqueGold/60 rounded-2xl p-3 sm:p-3.5 shadow-card-royal hover:shadow-lg transition-all hover:-translate-x-1 select-none"
             >
               <div className="flex items-center justify-between gap-2 mb-1">
                 <span className="font-serifDisplay font-bold text-xs sm:text-sm text-darkBrown truncate">
-                  {item.name}
+                  {currentWish.name}
                 </span>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  {item.isSample && (
+                  {currentWish.isSample && (
                     <span className="font-serifDisplay text-[9px] uppercase tracking-wider text-antiqueGold-deep font-bold bg-antiqueGold/15 px-1.5 py-0.5 rounded-full">
                       Family
                     </span>
                   )}
                   <button
-                    onClick={(e) => handleDismissBubble(item.id, e)}
-                    className="text-darkBrown/40 hover:text-darkBrown p-0.5 rounded-full hover:bg-cream transition-colors"
+                    onClick={handleDismissBubble}
+                    className="text-darkBrown/40 hover:text-darkBrown p-0.5 rounded-full hover:bg-cream transition-colors cursor-pointer"
                     title="Dismiss"
                   >
                     <X className="w-3 h-3" />
@@ -219,10 +235,10 @@ export const FloatingWishes = () => {
                 </div>
               </div>
               <p className="font-heading text-xs sm:text-sm italic text-darkBrown/90 line-clamp-3 leading-snug">
-                "{item.message}"
+                "{currentWish.message}"
               </p>
             </motion.div>
-          ))}
+          )}
         </AnimatePresence>
       </div>
 
@@ -294,7 +310,7 @@ export const FloatingWishes = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab("write")}
-                  className={`px-3.5 py-1 rounded-full font-serifDisplay text-xs font-bold tracking-wider uppercase transition-all ${
+                  className={`px-3.5 py-1 rounded-full font-serifDisplay text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${
                     activeTab === "write"
                       ? 'bg-antiqueGold text-ivory'
                       : 'text-darkBrown/60 hover:text-darkBrown hover:bg-cream'
@@ -305,7 +321,7 @@ export const FloatingWishes = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab("read")}
-                  className={`px-3.5 py-1 rounded-full font-serifDisplay text-xs font-bold tracking-wider uppercase transition-all ${
+                  className={`px-3.5 py-1 rounded-full font-serifDisplay text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${
                     activeTab === "read"
                       ? 'bg-antiqueGold text-ivory'
                       : 'text-darkBrown/60 hover:text-darkBrown hover:bg-cream'
@@ -373,7 +389,7 @@ export const FloatingWishes = () => {
               ) : (
                 /* Tab 2: All Wishes List */
                 <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1">
-                  {allWishesList.map((item) => (
+                  {allWishes.map((item) => (
                     <div
                       key={item.id}
                       className={`p-3.5 rounded-xl border ${
