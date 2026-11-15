@@ -4,6 +4,7 @@ import { PhotoGallery } from './components/PhotoGallery';
 import { PreWeddingFilm } from './components/PreWeddingFilm';
 import { WeddingCelebrations } from './components/WeddingCelebrations';
 import { WeddingLocation } from './components/WeddingLocation';
+import { WeddingWishes } from './components/WeddingWishes';
 import { FinalThankYou } from './components/FinalThankYou';
 import { weddingData } from './data/weddingData';
 
@@ -112,6 +113,11 @@ export function App() {
         {/* SECTION 5: WEDDING LOCATION (SIRIGANDHA PALACE, SIRA + GOOGLE MAP + DIRECTIONS) */}
         <WeddingLocation
           locationData={weddingData.location}
+        />
+
+        {/* SECTION: WEDDING WISHES (WITH LOVE & BLESSINGS - FROM KEERTHANA) */}
+        <WeddingWishes
+          wishesData={weddingData.wishes}
         />
 
         {/* SECTION 6: FINAL THANK YOU ("YOUR PRESENCE WILL MAKE OUR DAY MORE SPECIAL" + FOOTER) */}

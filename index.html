@@ -1373,6 +1373,135 @@
     }
 
     /* =========================================================================
+       10B. SECTION: WEDDING WISHES (WITH LOVE & BLESSINGS)
+       ========================================================================= */
+    #wishes-section {
+      padding: 5rem 1.25rem 4.5rem;
+      background: var(--color-cream-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wishes-container {
+      max-width: 44rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .wishes-card {
+      background: var(--color-ivory);
+      border: 1.5px solid var(--color-gold);
+      border-radius: 1.5rem;
+      padding: 2.25rem 1.75rem;
+      box-shadow: 0 14px 38px rgba(46, 26, 16, 0.08);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @media (min-width: 640px) {
+      .wishes-card {
+        padding: 3rem 2.5rem;
+      }
+    }
+
+    .wishes-card:hover {
+      box-shadow: 0 18px 45px rgba(197, 160, 89, 0.2);
+    }
+
+    .wishes-card-inner {
+      border: 1px dashed rgba(197, 160, 89, 0.45);
+      border-radius: 1.1rem;
+      padding: 2.25rem 1.5rem;
+      position: relative;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(255, 253, 249, 0.95), rgba(252, 248, 242, 0.7));
+    }
+
+    @media (min-width: 640px) {
+      .wishes-card-inner {
+        padding: 2.75rem 2.25rem;
+      }
+    }
+
+    .wishes-motif-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--color-gold);
+    }
+
+    .wishes-salutation {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--color-brown-dark);
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .wishes-body-text {
+      font-family: var(--font-heading);
+      font-size: 1.22rem;
+      line-height: 1.8;
+      font-style: italic;
+      color: rgba(46, 26, 16, 0.92);
+      margin: 0 auto;
+      max-width: 34rem;
+    }
+
+    @media (max-width: 600px) {
+      .wishes-body-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+    }
+
+    .wishes-closing-line {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--color-brown-dark);
+    }
+
+    .wishes-card-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      max-width: 14rem;
+      margin: 1.75rem auto 1.25rem;
+    }
+
+    .wishes-card-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    }
+
+    .wishes-card-divider-icon {
+      color: var(--color-gold);
+      font-size: 0.85rem;
+    }
+
+    .wishes-author-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-brown);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    .wishes-author-role {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      color: var(--color-gold-dark);
+    }
+
+    /* =========================================================================
        11. SECTION 7: FINAL THANK YOU
        ========================================================================= */
     #thank-you-section {
@@ -2067,6 +2196,74 @@
           </iframe>
         </div>
 
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION: WEDDING WISHES (WITH LOVE & BLESSINGS)
+       ========================================================================= -->
+  <section id="wishes-section">
+    <div class="container wishes-container">
+
+      <!-- Section Divider -->
+      <div class="section-divider">
+        <span class="eyebrow">HEARTFELT BLESSINGS</span>
+        <h2 class="section-title">WITH LOVE & BLESSINGS</h2>
+        <div class="gold-line-wrapper">
+          <div class="gold-line"></div>
+          <span class="gold-star">✦</span>
+          <div class="gold-line"></div>
+        </div>
+      </div>
+
+      <!-- Elegant Wishes Card -->
+      <div class="wishes-card">
+        <div class="wishes-card-inner">
+
+          <!-- Tiny Delicate Floral & Heart Ornament -->
+          <div class="wishes-motif-box" aria-hidden="true">
+            <svg width="42" height="42" viewBox="0 0 100 100" fill="none">
+              <path d="M50 82 C22 60, 14 45, 14 31 C14 20, 23 13, 34 13 C41 13, 47 17, 50 22 C53 17, 59 13, 66 13 C77 13, 86 20, 86 31 C86 45, 78 60, 50 82 Z"
+                fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="50" cy="42" r="3" fill="currentColor" />
+              <path d="M40 42 Q50 32 60 42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none" />
+              <circle cx="37" cy="30" r="1.8" fill="currentColor" />
+              <circle cx="63" cy="30" r="1.8" fill="currentColor" />
+            </svg>
+          </div>
+
+          <!-- Wish Message Text -->
+          <div class="wishes-salutation">
+            Dear Chandana and Harish,
+          </div>
+
+          <div class="wishes-body-text">
+            <p>
+              Wishing you both a lifetime filled with endless love, happiness, laughter and beautiful memories. May your journey together be blessed with understanding, togetherness and countless reasons to smile.
+            </p>
+            <p class="wishes-closing-line">
+              Lots of love and blessings to you both! ❤️
+            </p>
+          </div>
+
+          <!-- Divider -->
+          <div class="wishes-card-divider" aria-hidden="true">
+            <div class="wishes-card-divider-line"></div>
+            <span class="wishes-card-divider-icon">❦</span>
+            <div class="wishes-card-divider-line"></div>
+          </div>
+
+          <!-- Author Signature -->
+          <div class="wishes-author-name">
+            Keerthana
+          </div>
+          <div class="wishes-author-role">
+            Sister of the Bride
+          </div>
+
+        </div>
       </div>
 
     </div>
