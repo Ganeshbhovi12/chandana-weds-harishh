@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  body {
+    background-color: #FFFDF9;
+    color: #3D2418;
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+/* Custom scrollbar matching royal wedding theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7EFE2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9E7B34;
+}
+
+/* Gold foil text shimmer */
+.gold-foil-text {
+  background: linear-gradient(
+    90deg,
+    #9E7B34 0%,
+    #E5C97D 25%,
+    #FFF8E9 50%,
+    #E5C97D 75%,
+    #9E7B34 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 8s linear infinite;
+}
+
+/* 3D Perspective Stage for Indian Wooden Door */
+.perspective-stage {
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.door-left-origin {
+  transform-origin: left center;
+}
+
+.door-right-origin {
+  transform-origin: right center;
+}
+
+/* Realistic Teak Wood Plank Texture & Carvings */
+.teak-wood-texture {
+  background: 
+    linear-gradient(90deg, rgba(15, 7, 3, 0.75) 0%, rgba(55, 27, 12, 0.15) 6%, rgba(55, 27, 12, 0.15) 94%, rgba(15, 7, 3, 0.8) 100%),
+    repeating-linear-gradient(
+      0deg,
+      #1F0E06 0px,
+      #291309 8px,
+      #351A0C 16px,
+      #422110 24px,
+      #351A0C 32px,
+      #241107 40px
+    );
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.92);
+}
+
+.teak-wood-panel {
+  background: linear-gradient(145deg, #381A0B 0%, #1A0B04 50%, #2E150A 100%);
+  box-shadow: 
+    inset 4px 4px 10px rgba(0, 0, 0, 0.98),
+    inset -3px -3px 8px rgba(197, 160, 89, 0.2),
+    0 6px 16px rgba(0, 0, 0, 0.75);
+}
+
+.teak-pillar-wood {
+  background: 
+    linear-gradient(90deg, rgba(20, 9, 4, 0.9) 0%, rgba(65, 32, 14, 0.2) 20%, rgba(90, 48, 22, 0.3) 50%, rgba(65, 32, 14, 0.2) 80%, rgba(20, 9, 4, 0.9) 100%),
+    repeating-linear-gradient(
+      0deg,
+      #261208 0px,
+      #33190B 10px,
+      #422110 20px,
+      #2C1509 30px
+    );
+  box-shadow: 
+    inset 2px 0 6px rgba(255, 244, 200, 0.15),
+    inset -2px 0 6px rgba(0, 0, 0, 0.8),
+    0 10px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Cast Brass Knockers & Rings */
+.brass-gradient {
+  background: linear-gradient(135deg, #FFF4C8 0%, #E5C97D 25%, #C5A059 50%, #9E7B34 75%, #F7E4A8 100%);
+}
+
+.brass-ring {
+  background: radial-gradient(circle at 35% 35%, #FFFDF9, #E5C97D 35%, #9E7B34 75%, #4A2E1F 100%);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.75),
+    inset 0 2px 4px rgba(255, 253, 249, 0.8),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.85);
+}
+
+/* Authentic Hanging Brass Temple Bell Sway */
+@keyframes bell-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2.8deg);
+  }
+  75% {
+    transform: rotate(-2.8deg);
+  }
+}
+
+.animate-bell-sway {
+  transform-origin: top center;
+  animation: bell-sway 4.5s ease-in-out infinite;
+}
+
+/* Authentic Banana Leaf Gentle Sway */
+@keyframes leaf-sway {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(1.8deg) translateY(1.5px);
+  }
+}
+
+.animate-leaf-sway {
+  transform-origin: top center;
+  animation: leaf-sway 5.2s ease-in-out infinite;
+}
+
+/* Traditional Brass Diya Flame */
+@keyframes flame-flicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px #FFB703) drop-shadow(0 0 16px #E85D04);
+  }
+  25% {
+    transform: scale(1.08, 0.94) rotate(1.5deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 22px #F77F00);
+  }
+  50% {
+    transform: scale(0.96, 1.05) rotate(-1deg);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 9px #FFB703) drop-shadow(0 0 18px #E85D04);
+  }
+  75% {
+    transform: scale(1.04, 0.98) rotate(2deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 14px #FFD166) drop-shadow(0 0 24px #F77F00);
+  }
+}
+
+.animate-flame {
+  animation: flame-flicker 2.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
