@@ -83,20 +83,6 @@ export function App() {
         >
           VENUE
         </button>
-
-        <span className="text-antiqueGold/40">•</span>
-
-        <a
-          href="./wishes-login"
-          className="p-1 sm:p-1.5 text-antiqueGold hover:text-darkBrown hover:bg-cream rounded-full transition-all hover:scale-110 flex items-center justify-center"
-          title="Private Access"
-          aria-label="Private Access"
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-        </a>
       </nav>
 
       {/* MAIN WEDDING WEBSITE SECTIONS (Visible immediately upon visiting) */}
